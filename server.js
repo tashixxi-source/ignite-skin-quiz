@@ -45,7 +45,9 @@ All routine steps must be in Thai, concise (under 12 words each).`;
     });
 
     const data = await response.json();
-    const text = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
+const text = (data.content && Array.isArray(data.content))
+  ? data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim()
+  : '';
     const result = JSON.parse(text);
     res.json(result);
   } catch (e) {
