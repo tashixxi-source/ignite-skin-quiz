@@ -20,14 +20,12 @@ Respond ONLY in valid JSON with this exact structure (no markdown, no extra text
 {
   "skinType": "one of: Oily / Dry / Normal / Combination / Sensitive",
   "skinTypeThaiName": "ผิวมัน / ผิวแห้ง / ผิวปกติ / ผิวผสม / ผิวแพ้ง่าย",
-  "confidence": "เปอร์เซ็นต์ความมั่นใจ like 85%",
-  "description": "2-3 sentences in Thai describing this person's skin characteristics",
+  "confidence": "85%",
+  "description": "2-3 sentences in Thai describing this person skin characteristics",
   "morningRoutine": ["step 1", "step 2", "step 3", "step 4"],
   "eveningRoutine": ["step 1", "step 2", "step 3", "step 4"],
   "igniteTip": "One sentence in Thai about how IGNITE app grooming tracker helps this skin type"
-}
-
-All routine steps must be in Thai, concise (under 12 words each).`;
+}`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -45,16 +43,23 @@ All routine steps must be in Thai, concise (under 12 words each).`;
     });
 
     const data = await response.json();
-const text = (data.content && Array.isArray(data.content))
-  ? data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim()
-  : '';
-    const result = JSON.parse(text);
+    console.log('API response:', JSON.stringify(data).slice(0, 300));
+
+    if (!response.ok) {
+      console.error('API error:', data);
+      return res.status(500).json({ error: 'Anthropic API error', detail: data });
+    }
+
+    const rawText = data.content[0].text;
+    const cleaned = rawText.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(cleaned);
     res.json(result);
+
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: 'Analysis failed' });
+    console.error('Server error:', e);
+    res.status(500).json({ error: 'Analysis failed', detail: e.message });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log('Server running on port ' + PORT));
