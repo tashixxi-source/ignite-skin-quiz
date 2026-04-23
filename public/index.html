@@ -111,7 +111,7 @@
     <div class="q-text">ผิวของคุณเป็นสิวบ่อยไหม?</div>
     <div class="options">
       <button class="opt" data-val="never"><span class="opt-label">แทบไม่มีเลย</span></button>
-      <button class="opt" data-val="sometimes"><span class="opt-label">บางครั้ง โดยเฉพาะช่วง stress หรือประจำเดือน</span></button>
+      <button class="opt" data-val="sometimes"><span class="opt-label">บางครั้ง โดยเฉพาะช่วง stress หรืออดนอน</span></button>
       <button class="opt" data-val="often_t"><span class="opt-label">บ่อย โดยเฉพาะที่ T-zone</span></button>
       <button class="opt" data-val="often_all"><span class="opt-label">บ่อยมาก ทั่วหน้า</span></button>
     </div>
@@ -263,7 +263,7 @@ function showResult(r) {
   const el = document.getElementById('result');
   el.style.display = 'block';
   el.innerHTML = `
-    <div class="result-badge">ผลการวิเคราะห์ · ความมั่นใจ ${r.confidence}</div>
+    <div class="result-badge">ผลการวิเคราะห์
     <div class="result-title">${r.skinTypeThaiName} (${r.skinType} Skin)</div>
     <div class="result-desc">${r.description}</div>
     <div class="routine-card">
@@ -283,7 +283,7 @@ function showResult(r) {
         </div>
         <div>
           <div class="ignite-cta-text">เริ่ม routine บน IGNITE</div>
-          <div class="ignite-cta-sub">${r.igniteTip}</div>
+         <div class="ignite-cta-sub">สร้าง routine ดูแลผิวและติดตามพัฒนาการได้บน IGNITE</div>
         </div>
       </div>
     </div>
